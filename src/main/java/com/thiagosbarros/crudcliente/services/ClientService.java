@@ -8,6 +8,7 @@ import jakarta.websocket.ClientEndpoint;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -42,8 +43,11 @@ public class ClientService {
     public ClientDto findById(ClientDto clientDto) {
         return null;
     }
-    public List<ClientDto> findAll() {
-        return null;
+    public List<ClientDto> findAll()
+    {
+      List<Client> clients = clientRepository.findAll();
+      return clients.stream()
+              .map(ClientMapper::toDto).collect(Collectors.toList());
     }
 
 

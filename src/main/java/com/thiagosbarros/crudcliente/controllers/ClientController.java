@@ -4,10 +4,9 @@ import com.thiagosbarros.crudcliente.dto.ClientDto;
 import com.thiagosbarros.crudcliente.services.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/client")
@@ -23,6 +22,12 @@ public class ClientController {
      public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto){
          ClientDto clienteDto = clientService.create(clientDto);
          return ResponseEntity.status(HttpStatus.CREATED).body(clienteDto);
+     }
+
+     @GetMapping
+     public ResponseEntity<List<ClientDto>> getAllClients(){
+         List<ClientDto> clients =  clientService.findAll();
+         return ResponseEntity.status(HttpStatus.OK).body(clients);
      }
 
 }
