@@ -7,6 +7,7 @@ import com.thiagosbarros.crudcliente.repository.ClientRepository;
 import jakarta.websocket.ClientEndpoint;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
+    @Transactional
     public ClientDto create(ClientDto clientDto) {
         Client client = new  Client();
         client.setId(clientDto.getId());
@@ -32,18 +34,28 @@ public class ClientService {
         return ClientMapper.toDto(client);
 
     }
-
+    @Transactional
     public ClientDto update(Long id,ClientDto clientDto)
     {
         Client client = clientRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Not Found"));
-        return null;
+        client.setName(clientDto.getName());
+        client.setBirthDate(clientDto.getBirthDate());
+        client.setChildren(clientDto.getChildren());
+        client.setCpf(clientDto.getCpf());
+        client.setIncome(clientDto.getIncome());
+        clientRepository.save(client);
+        return ClientMapper.toDto(client);
     }
 
-    public void delete(ClientDto clientDto) {
-
+    @Transactional
+    public void delete(Long id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Not Found"));
+        clientRepository.delete(client);
     }
 
+    @Transactional(readOnly = true)
     public ClientDto findById(Long clientId)
     {
         Client client = clientRepository.findById(clientId)
@@ -53,13 +65,15 @@ public class ClientService {
 
     }
 
-
+    @Transactional(readOnly = true)
     public List<ClientDto> findAll()
     {
       List<Client> clients = clientRepository.findAll();
       return clients.stream()
               .map(ClientMapper::toDto).collect(Collectors.toList());
     }
+
+
 
 
 }
