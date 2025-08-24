@@ -30,4 +30,10 @@ public class ClientController {
          return ResponseEntity.status(HttpStatus.OK).body(clients);
      }
 
+     @GetMapping("/{id}")
+     public ResponseEntity<ClientDto> getClientById(@PathVariable Long id){
+         ClientDto clientDto = clientService.findById(id);
+         return ResponseEntity.status(HttpStatus.OK).body(clientDto);
+     }
+
 }

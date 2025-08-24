@@ -5,6 +5,7 @@ import com.thiagosbarros.crudcliente.entities.Client;
 import com.thiagosbarros.crudcliente.mapper.ClientMapper;
 import com.thiagosbarros.crudcliente.repository.ClientRepository;
 import jakarta.websocket.ClientEndpoint;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,10 @@ public class ClientService {
 
     }
 
-    public ClientDto update(ClientDto clientDto) {
+    public ClientDto update(Long id,ClientDto clientDto)
+    {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Not Found"));
         return null;
     }
 
@@ -40,9 +44,16 @@ public class ClientService {
 
     }
 
-    public ClientDto findById(ClientDto clientDto) {
-        return null;
+    public ClientDto findById(Long clientId)
+    {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(()-> new RuntimeException("Client not found"));
+
+        return ClientMapper.toDto(client);
+
     }
+
+
     public List<ClientDto> findAll()
     {
       List<Client> clients = clientRepository.findAll();
