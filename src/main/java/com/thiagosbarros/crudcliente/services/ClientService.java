@@ -4,8 +4,8 @@ import com.thiagosbarros.crudcliente.dto.ClientDto;
 import com.thiagosbarros.crudcliente.entities.Client;
 import com.thiagosbarros.crudcliente.mapper.ClientMapper;
 import com.thiagosbarros.crudcliente.repository.ClientRepository;
-import jakarta.websocket.ClientEndpoint;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,7 +73,12 @@ public class ClientService {
               .map(ClientMapper::toDto).collect(Collectors.toList());
     }
 
-
+    @Transactional(readOnly = true)
+    public Page<ClientDto> findAllPage(Pageable pageable)
+    {
+       Page<Client> clients = clientRepository.finAllPage(pageable);
+       return clients.map(ClientMapper::toDto);
+    }
 
 
 }

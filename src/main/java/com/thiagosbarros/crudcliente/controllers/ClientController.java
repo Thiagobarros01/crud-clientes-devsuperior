@@ -2,6 +2,8 @@ package com.thiagosbarros.crudcliente.controllers;
 
 import com.thiagosbarros.crudcliente.dto.ClientDto;
 import com.thiagosbarros.crudcliente.services.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,11 @@ public class ClientController {
      public ResponseEntity<List<ClientDto>> getAllClients(){
          List<ClientDto> clients =  clientService.findAll();
          return ResponseEntity.status(HttpStatus.OK).body(clients);
+     }
+
+     @GetMapping("/paginado")
+     public ResponseEntity<Page<ClientDto>> getAllClientsPaginado(Pageable pageable){
+         return ResponseEntity.status(HttpStatus.OK).body(clientService.findAllPage(pageable));
      }
 
      @GetMapping("/{id}")
