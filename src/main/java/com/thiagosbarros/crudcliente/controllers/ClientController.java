@@ -2,6 +2,7 @@ package com.thiagosbarros.crudcliente.controllers;
 
 import com.thiagosbarros.crudcliente.dto.ClientDto;
 import com.thiagosbarros.crudcliente.services.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,13 @@ public class ClientController {
      }
 
      @PostMapping
-     public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto){
+     public ResponseEntity<ClientDto> createClient(@RequestBody @Valid ClientDto clientDto){
          ClientDto clienteDto = clientService.create(clientDto);
          return ResponseEntity.status(HttpStatus.CREATED).body(clienteDto);
      }
 
      @PutMapping("/{id}")
-     public ResponseEntity<ClientDto> updateClient(@PathVariable Long id, @RequestBody ClientDto clientDto){
+     public ResponseEntity<ClientDto> updateClient(@PathVariable Long id, @RequestBody @Valid ClientDto clientDto){
          return ResponseEntity.status(HttpStatus.OK).body(clientService.update(id,clientDto));
      }
 
