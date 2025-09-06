@@ -33,6 +33,7 @@ public class ApiExceptionHandler {
     // 422 – validação em @PathVariable/@RequestParam
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ProblemDetail> handleConstraint(ConstraintViolationException ex, HttpServletRequest req) {
+       //Pega a lista de erros
         var errors = ex.getConstraintViolations().stream()
                 .map(v -> Map.of("field", v.getPropertyPath().toString(), "message", v.getMessage()))
                 .toList();
