@@ -3,14 +3,17 @@ package com.thiagosbarros.crudcliente.controllers;
 import com.thiagosbarros.crudcliente.dto.ClientDto;
 import com.thiagosbarros.crudcliente.services.ClientService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
@@ -44,13 +47,13 @@ public class ClientController {
      }
 
      @GetMapping("/{id}")
-     public ResponseEntity<ClientDto> getClientById(@PathVariable Long id){
+     public ResponseEntity<ClientDto> getClientById(@PathVariable @Min(1) Long id){
          ClientDto clientDto = clientService.findById(id);
          return ResponseEntity.status(HttpStatus.OK).body(clientDto);
      }
 
      @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClientById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteClientById(@PathVariable @Min(1) Long id){
          clientService.delete(id);
          return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
      }

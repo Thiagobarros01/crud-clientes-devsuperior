@@ -2,6 +2,7 @@ package com.thiagosbarros.crudcliente.services;
 
 import com.thiagosbarros.crudcliente.dto.ClientDto;
 import com.thiagosbarros.crudcliente.entities.Client;
+import com.thiagosbarros.crudcliente.exception.ResourceNotFoundException;
 import com.thiagosbarros.crudcliente.mapper.ClientMapper;
 import com.thiagosbarros.crudcliente.repository.ClientRepository;
 import org.springframework.data.domain.Page;
@@ -59,7 +60,7 @@ public class ClientService {
     public ClientDto findById(Long clientId)
     {
         Client client = clientRepository.findById(clientId)
-                .orElseThrow(()-> new RuntimeException("Client not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Client not found",clientId));
 
         return ClientMapper.toDto(client);
 
