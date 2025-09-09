@@ -3,6 +3,7 @@ package com.thiagosbarros.crudcliente.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -54,8 +55,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/clients/**").hasRole("ADMIN")
                         // qualquer outra requisição precisa estar autenticada
                         .anyRequest().authenticated()
-                )
-                .formLogin(form -> form.loginPage("/login").permitAll());
+                ).formLogin(Customizer.withDefaults());
         return http.build();
 
     }
