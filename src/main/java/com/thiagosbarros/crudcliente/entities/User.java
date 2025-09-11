@@ -22,6 +22,14 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
+    public User(Long id, String email, String password, List<Role> roles) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+    public User() {}
+
     public Long getId() {
         return id;
     }
