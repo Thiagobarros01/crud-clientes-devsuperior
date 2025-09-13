@@ -31,6 +31,11 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Verifica se o endpoint requer autenticação antes de processar a requisição
+        if(request.getRequestURI().startsWith("/h2-console")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if (checkIfEndpointIsNotPublic(request)) {
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
             if (token != null) {
@@ -47,9 +52,10 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 throw new RuntimeException("O token está ausente.");
             }
-            filterChain.doFilter(request, response); // Continua o processamento da requisição
 
         }
+
+        filterChain.doFilter(request, response); // Continua o processamento da requisição
     }
 
     // Recupera o token do cabeçalho Authorization da requisição

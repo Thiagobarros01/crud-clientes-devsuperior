@@ -4,6 +4,7 @@ package com.thiagosbarros.crudcliente.controllers;
 import com.thiagosbarros.crudcliente.dto.CreateUserDto;
 import com.thiagosbarros.crudcliente.dto.LoginUserDto;
 import com.thiagosbarros.crudcliente.dto.RecoveryJwtTokenDto;
+import com.thiagosbarros.crudcliente.entities.User;
 import com.thiagosbarros.crudcliente.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody CreateUserDto createUserDto) {
-        userService.createUser(createUserDto);
+         userService.createUser(createUserDto);
          return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
